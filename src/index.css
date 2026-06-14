@@ -1,25 +1,28 @@
 @import 'tailwindcss';
 
 :root {
-  --colors-brand: #624de3;
+  --colors-brand-hover: #5325DC;
+  --colors-brand-active: #5325DC;
+
+  --colors-brand: #6638EF;
   --colors-darkBlue: #00234b;
   --colors-redPink: #ff4a5a;
 
-  --colors-bgBase: #F3F4F8;
-  --colors-gray-900: #0F1419;
-  --colors-gray-800: #222E39;
+  --colors-bgBase: #f3f4f8;
+  --colors-gray-900: #0f1419;
+  --colors-gray-800: #222e39;
   --colors-gray-700: #364452;
-  --colors-gray-600: #4B5865;
+  --colors-gray-600: #4b5865;
   --colors-gray-500: #697786;
-  --colors-gray-400: #9AA6B2;
-  --colors-gray-300: #CDD6DF;
-  --colors-gray-200: #E3E9EF;
-  --colors-gray-100: #EEF2F6;
-  --colors-gray-50: #F8FAFC;
+  --colors-gray-400: #9aa6b2;
+  --colors-gray-300: #cdd6df;
+  --colors-gray-200: #e3e9ef;
+  --colors-gray-100: #eef2f6;
+  --colors-gray-50: #f8fafc;
 
   --colors-blank: #ffffff;
 
-  --font-primary: "Inter", sans-serif;
+  --font-primary: 'Inter', sans-serif;
   --layout-width: 1100px;
 
   --z-index-table-head: 2;
@@ -35,7 +38,9 @@ html {
 
 *,
 *:before,
-*:after { box-sizing: inherit; }
+*:after {
+  box-sizing: inherit;
+}
 
 body {
   margin: 0;

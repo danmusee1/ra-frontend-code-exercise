@@ -100,8 +100,26 @@ export const PeoplePage = (): ReactElement => {
           )}
         </h1>
 
-        <Link to="/people/new" className={getButtonClasses('primary')}>
-          <UserPlusIcon className="h-[1.6rem] w-[1.6rem]" aria-hidden="true" />
+        <Link
+          to="/people/new"
+          className={`
+    ${getButtonClasses('primary')}
+    focus-visible:outline-none
+    focus-visible:ring-2
+    focus-visible:ring-[var(--colors-brand)]
+    focus-visible:ring-offset-2
+    focus-visible:ring-offset-[var(--colors-bgBase)]
+    transition
+    motion-reduce:transition-none
+    select-none
+  `}
+          aria-label="Add new member"
+        >
+          <UserPlusIcon
+            className="h-[1.6rem] w-[1.6rem]"
+            aria-hidden="true"
+            focusable="false"
+          />
           Add member
         </Link>
       </div>
@@ -134,19 +152,18 @@ export const PeoplePage = (): ReactElement => {
             onChange={handleStatusChange}
           />
         </div>
-      
-          <PeopleTable
-            people={data?.people ?? []}
-            isLoading={isLoading}
-            isFetching={isFetching}
-            isError={isError}
-            pageSize={search.pageSize}
-            hasActiveFilters={hasActiveFilters}
-            onRetry={() => refetch()}
-            onClearFilters={handleClearFilters}
-            onDeleteClick={setPersonToDelete}
-          />
-     
+
+        <PeopleTable
+          people={data?.people ?? []}
+          isLoading={isLoading}
+          isFetching={isFetching}
+          isError={isError}
+          pageSize={search.pageSize}
+          hasActiveFilters={hasActiveFilters}
+          onRetry={() => refetch()}
+          onClearFilters={handleClearFilters}
+          onDeleteClick={setPersonToDelete}
+        />
 
         <div className="border-t border-[var(--colors-gray-100)]">
           <Pagination
