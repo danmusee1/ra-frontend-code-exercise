@@ -6,6 +6,7 @@ import { useDeletePerson, usePeople } from '../../hooks/usePeople';
 import { indexRoute, PeopleSearch } from '../../route/route-tree';
 import { useDebounce } from '../../hooks/useDebounce';
 import { DeleteConfirmDialog } from './components/DeleteConfirmDialog';
+import { SearchInput } from './components/SearchInput';
 
 export const PeoplePage = (): ReactElement => {
   const search = indexRoute.useSearch();
@@ -88,31 +89,28 @@ export const PeoplePage = (): ReactElement => {
     <main className="mx-auto w-full max-w-[var(--layout-width)] overflow-auto">
       <p className="text-[30px] font-medium my-6">People</p>
 
-      <div className="flex justify-between mb-4">
-        <div className="flex-1">
-          <input
-            className="w-full px-3 py-2 rounded border border-[var(--colors-gray-300)] bg-white"
-            placeholder="Search people..."
-            value={search.q}
+      <div className="overflow-hidden rounded-[1.2rem] border border-[var(--colors-gray-200)] bg-[var(--colors-blank)]">
+        <div className="flex flex-wrap items-center justify-between gap-[1.6rem] p-[2rem]">
+          <SearchInput value={searchInput} onChange={setSearchInput} />
+          <StatusFilterPills
+            value={search.status}
+            onChange={handleStatusChange}
           />
         </div>
-        <StatusFilterPills
-          value={statusFilter ? [statusFilter] : []}
-          onChange={(statuses) => setStatusFilter(statuses[0] || '')}
-        />
+        <div className="border-t border-[var(--colors-gray-100)]">
+          <PeopleTable
+            people={data?.people ?? []}
+            isLoading={isLoading}
+            isFetching={isFetching}
+            isError={isError}
+            pageSize={search.pageSize}
+            hasActiveFilters={hasActiveFilters}
+            onRetry={() => refetch()}
+            onClearFilters={handleClearFilters}
+            onDeleteClick={setPersonToDelete}
+          />
+        </div>
       </div>
-
-      <PeopleTable
-        people={data?.people ?? []}
-        isLoading={isLoading}
-        isFetching={isFetching}
-        isError={isError}
-        pageSize={search.pageSize}
-        hasActiveFilters={hasActiveFilters}
-        onRetry={() => refetch()}
-        onClearFilters={handleClearFilters}
-        onDeleteClick={setPersonToDelete}
-      />
 
       <DeleteConfirmDialog
         person={personToDelete}
