@@ -5,6 +5,7 @@ import { usePeople } from '../../hooks/usePeople';
 import { indexRoute } from '../../routes/route-tree';
 import { getRouteApi } from '@tanstack/react-router';
 import { PersonStatus } from '../../types/person';
+import { Button } from '../../shared/components/ui/Button';
 
 const routeApi = getRouteApi('/');
 const capitalizeFirst = (text: string | undefined): string => {
@@ -80,23 +81,29 @@ export const PeopleTable = (): ReactElement => {
 
       {!isLoading && (
         <div className="flex justify-center mt-4">
-          <button
+          {/* <button
             className="px-3 py-2 mx-1 rounded border bg-white"
             onClick={() => handlePageChange(Math.max(1, page - 1))}
             disabled={page === 1}
           >
             Prev
-          </button>
+          </button> */}
+          <Button onClick={() => handlePageChange(Math.max(1, page - 1))} variant="secondary" isLoading={isFetching}>
+            Prev
+          </Button>
           <span className="px-3 py-2 mx-1">
             Page {page} of {totalPages}
           </span>
-          <button
+            <Button onClick={() => handlePageChange(page + 1)} variant="secondary" isLoading={isFetching} disabled={page >= totalPages}>
+            Next
+          </Button>
+          {/* <button
             className="px-3 py-2 mx-1 rounded border bg-white"
             onClick={() => handlePageChange(page + 1)}
             disabled={page >= totalPages}
           >
             Next
-          </button>
+          </button> */}
         </div>
       )}
     </>
