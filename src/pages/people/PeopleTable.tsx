@@ -1,50 +1,41 @@
-import { ReactElement, useEffect, useState } from 'react';
-import { Person } from '../../types/person';
 
+import { ReactElement } from 'react';
 
-const getPeople = async (search: string, page: number): Promise<Person[]> => {
-  let queryParams = `?_page=${page}`;
+import { usePeople } from '../../hooks/usePeople';
+import { indexRoute } from '../../routes/route-tree';
+import { getRouteApi } from '@tanstack/react-router';
+import { PersonStatus } from '../../types/person';
 
-  if (search) {
-    queryParams += `&name_like=${search}`;
-  }
-
-  const url = `http://localhost:4002/people${queryParams}`;
-  const response = await fetch(url, { method: 'GET' });
-
-  const people = await response.json();
-
-  return people;
-};
-
+const routeApi = getRouteApi('/');
 const capitalizeFirst = (text: string | undefined): string => {
   if (!text) return '';
   return text.charAt(0).toUpperCase() + text.slice(1);
 };
 
-type Props = {
-  search: string;
-};
+export const PeopleTable = (): ReactElement => {
+   const { q, status, page = 1, pageSize = 10 } = routeApi.useSearch() as {
+    q?: string;
+    status?: PersonStatus;
+    page?: number;
+    pageSize?: number;
+  };
+  const navigate = indexRoute.useNavigate();
 
-export const PeopleTable = (props: Props): ReactElement => {
-  const { search } = props;
-  const [people, setPeople] = useState<Person[] | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [currentPage, setCurrentPage] = useState(1);
+  const { data, isLoading, isFetching } = usePeople({
+    search: q ?? '',
+    status: status ? [status] : [],
+    page,
+    pageSize,
+  });
 
-  useEffect(() => {
-    const loadPeople = async (): Promise<void> => {
-      setIsLoading(true);
-      const data = await getPeople(search, currentPage);
-      setPeople(data);
-      setIsLoading(false);
-    };
+  const people = data?.people ?? [];
+  const total = data?.total ?? 0;
+  const totalPages = Math.max(1, Math.ceil(total / pageSize));
 
-    loadPeople();
-  }, [search, currentPage]);
-
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
+  const handlePageChange = (nextPage: number): void => {
+    navigate({
+      search: (prev) => ({ ...prev, page: nextPage }),
+    });
   };
 
   return (
@@ -72,9 +63,9 @@ export const PeopleTable = (props: Props): ReactElement => {
         )}
 
         {!isLoading && (
-          <tbody>
-            {people?.map((person) => (
-              <tr key={person.name} className="transition-colors hover:bg-[var(--colors-gray-100)]">
+          <tbody className={isFetching ? 'opacity-60 transition-opacity' : 'transition-opacity'}>
+            {people.map((person) => (
+              <tr key={person.id} className="transition-colors hover:bg-[var(--colors-gray-100)]">
                 <td className="px-4 py-3 border-t border-[var(--colors-gray-300)] bg-[var(--colors-blank)]">{person.name}</td>
                 <td className="px-4 py-3 border-t border-[var(--colors-gray-300)] bg-[var(--colors-blank)]">{person.jobTitle}</td>
                 <td className="px-4 py-3 border-t border-[var(--colors-gray-300)] bg-[var(--colors-blank)]">{capitalizeFirst(person.employment)}</td>
@@ -91,13 +82,19 @@ export const PeopleTable = (props: Props): ReactElement => {
         <div className="flex justify-center mt-4">
           <button
             className="px-3 py-2 mx-1 rounded border bg-white"
-            onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
-            disabled={currentPage === 1}
+            onClick={() => handlePageChange(Math.max(1, page - 1))}
+            disabled={page === 1}
           >
             Prev
           </button>
-          <span className="px-3 py-2 mx-1">Page {currentPage}</span>
-          <button className="px-3 py-2 mx-1 rounded border bg-white" onClick={() => handlePageChange(currentPage + 1)}>
+          <span className="px-3 py-2 mx-1">
+            Page {page} of {totalPages}
+          </span>
+          <button
+            className="px-3 py-2 mx-1 rounded border bg-white"
+            onClick={() => handlePageChange(page + 1)}
+            disabled={page >= totalPages}
+          >
             Next
           </button>
         </div>

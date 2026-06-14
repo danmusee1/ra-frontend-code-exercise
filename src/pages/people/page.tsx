@@ -59,7 +59,7 @@ export const PeoplePage = (): ReactElement => {
         </div>
       </div>
 
-      <PeopleTable search={search} />
+      <PeopleTable />
     </main>
   );
 };
