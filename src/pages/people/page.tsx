@@ -1,14 +1,65 @@
-import { ReactElement, useState, ChangeEvent } from 'react';
+import { ReactElement, useState, useEffect } from 'react';
 import { PeopleTable } from './PeopleTable';
 import { StatusFilterPills } from './components/StatusFilterPills';
-import { PersonStatus } from '../../types/person';
+import { Person, PersonStatus } from '../../types/person';
+import { usePeople } from '../../hooks/usePeople';
+import { indexRoute, PeopleSearch } from '../../route/route-tree';
+import { useDebounce } from '../../hooks/useDebounce';
 
 export const PeoplePage = (): ReactElement => {
-  const [search, setSearch] = useState('');
+   const search = indexRoute.useSearch();
+     const navigate = indexRoute.useNavigate();
 const [statusFilter, setStatusFilter] = useState<PersonStatus | undefined>();
-  // const handleStatusFilterChange = (status: string, checked: boolean) => {
-  //   setStatusFilter(checked ? status : '');
-  // };
+
+  const [searchInput, setSearchInput] = useState(search.q);
+    const debouncedSearch = useDebounce(searchInput, 350);
+    const [personToDelete, setPersonToDelete] = useState<Person | null>(null);
+    
+   const updateSearch = (updates: Partial<PeopleSearch>) => {
+      navigate({
+        search: (prev) => ({ ...prev, ...updates }),
+        replace: true,
+      });
+    };
+
+      // Push the debounced search text into the URL (resetting to page 1).
+  useEffect(() => {
+    if (debouncedSearch !== search.q) {
+      updateSearch({ q: debouncedSearch, page: 1 });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [debouncedSearch]);
+
+  // Keep the input in sync if the URL changes from elsewhere (back/forward, links).
+  useEffect(() => {
+    setSearchInput(search.q);
+  }, [search.q]);
+  const { data, isLoading, isFetching, isError, refetch } = usePeople({
+    search: search.q,
+    status: search.status,
+    page: search.page,
+    pageSize: search.pageSize,
+  });
+
+    const totalPages = data
+    ? Math.max(1, Math.ceil(data.total / search.pageSize))
+    : 1;
+
+     useEffect(() => {
+        if (data && search.page > totalPages) {
+          updateSearch({ page: totalPages });
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+      }, [data, totalPages]);
+
+    const hasActiveFilters = search.q.trim() !== '' || search.status.length > 0;
+
+    const handleClearFilters = () => {
+    setSearchInput('');
+    updateSearch({ q: '', status: [], page: 1 });
+  };
+
+  
 
   return (
     <main className="mx-auto w-full max-w-[var(--layout-width)] overflow-auto">
@@ -19,16 +70,24 @@ const [statusFilter, setStatusFilter] = useState<PersonStatus | undefined>();
           <input
             className="w-full px-3 py-2 rounded border border-[var(--colors-gray-300)] bg-white"
             placeholder="Search people..."
-            value={search}
-            onChange={(e: ChangeEvent<HTMLInputElement>) => setSearch(e.target.value)}
+            value={search.q}
           />
         </div>
         <StatusFilterPills value={statusFilter ? [statusFilter] : []} onChange={(statuses) => setStatusFilter(statuses[0] || '')} />
 
-    
       </div>
 
-      <PeopleTable />
+        <PeopleTable
+          people={data?.people ?? []}
+          isLoading={isLoading}
+          isFetching={isFetching}
+          isError={isError}
+          pageSize={search.pageSize}
+          hasActiveFilters={hasActiveFilters}
+          onRetry={() => refetch()}
+          onClearFilters={handleClearFilters}
+          onDeleteClick={setPersonToDelete}
+        />
     </main>
   );
 };
