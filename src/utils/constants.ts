@@ -8,3 +8,5 @@ export const STATUS_CONFIG: Record<PersonStatus, { label: string; dotClassName: 
   offboarded: { label: 'Offboarded', dotClassName: 'bg-[var(--colors-gray-400)]' },
 };
 export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+export const PAGE_SIZE_OPTIONS = [10, 25, 50] as const;
+export const DEFAULT_PAGE_SIZE = 25;

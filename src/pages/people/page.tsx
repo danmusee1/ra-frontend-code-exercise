@@ -10,6 +10,7 @@ import { SearchInput } from './components/SearchInput';
 import { Link } from '@tanstack/react-router';
 import UserPlusIcon from '@/icons/user-plus.svg?react';
 import { getButtonClasses } from '../../shared/components/ui/ButtonStyles';
+import { Pagination } from './components/Pagination';
 
 export const PeoplePage = (): ReactElement => {
   const search = indexRoute.useSearch();
@@ -105,7 +106,7 @@ export const PeoplePage = (): ReactElement => {
         </Link>
       </div>
 
-        {deleteError && (
+      {deleteError && (
         <div
           role="alert"
           className="mb-[1.6rem] flex items-center justify-between gap-[1.6rem] rounded-[0.8rem]
@@ -133,7 +134,7 @@ export const PeoplePage = (): ReactElement => {
             onChange={handleStatusChange}
           />
         </div>
-        <div className="border-t border-[var(--colors-gray-100)]">
+      
           <PeopleTable
             people={data?.people ?? []}
             isLoading={isLoading}
@@ -144,6 +145,17 @@ export const PeoplePage = (): ReactElement => {
             onRetry={() => refetch()}
             onClearFilters={handleClearFilters}
             onDeleteClick={setPersonToDelete}
+          />
+     
+
+        <div className="border-t border-[var(--colors-gray-100)]">
+          <Pagination
+            page={search.page}
+            pageSize={search.pageSize}
+            total={data?.total ?? 0}
+            onPageChange={(page) => updateSearch({ page })}
+            onPageSizeChange={(pageSize) => updateSearch({ pageSize, page: 1 })}
+            disabled={isLoading}
           />
         </div>
       </div>
