@@ -7,6 +7,8 @@ import { getRouteApi } from '@tanstack/react-router';
 import { PersonStatus } from '../../types/person';
 import { Button } from '../../shared/components/ui/Button';
 import { StatusBadge } from '../../shared/components/ui/StatusBadge';
+import { formatSalary } from '../../utils/format';
+import { Avatar } from '../../shared/components/ui/Avatar';
 
 const routeApi = getRouteApi('/');
 const capitalizeFirst = (text: string | undefined): string => {
@@ -68,12 +70,18 @@ export const PeopleTable = (): ReactElement => {
           <tbody className={isFetching ? 'opacity-60 transition-opacity' : 'transition-opacity'}>
             {people.map((person) => (
               <tr key={person.id} className="transition-colors hover:bg-[var(--colors-gray-100)]">
-                <td className="px-4 py-3 border-t border-[var(--colors-gray-300)] bg-[var(--colors-blank)]">{person.name}</td>
+                <td className="px-4 py-3 border-t border-[var(--colors-gray-300)] bg-[var(--colors-blank)]">
+                  <div className="flex items-center gap-2 text-nowrap">
+                     <Avatar name={person.name} seed={person.id} /> {person.name}
+                    </div>
+                 
+                  
+                  </td>
                 <td className="px-4 py-3 border-t border-[var(--colors-gray-300)] bg-[var(--colors-blank)]">{person.jobTitle}</td>
                 <td className="px-4 py-3 border-t border-[var(--colors-gray-300)] bg-[var(--colors-blank)]">{capitalizeFirst(person.employment)}</td>
                 <td className="px-4 py-3 border-t border-[var(--colors-gray-300)] bg-[var(--colors-blank)]">{StatusBadge({ status: person.status })}</td>
                 <td className="px-4 py-3 border-t border-[var(--colors-gray-300)] bg-[var(--colors-blank)]">{person.country}</td>
-                <td className="px-4 py-3 border-t border-[var(--colors-gray-300)] bg-[var(--colors-blank)]">{person.salary}</td>
+                <td className="px-4 py-3 border-t border-[var(--colors-gray-300)] bg-[var(--colors-blank)]">{formatSalary(person.salary, person.currency)}</td>
               </tr>
             ))}
           </tbody>
