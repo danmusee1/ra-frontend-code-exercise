@@ -7,11 +7,13 @@ import { indexRoute, PeopleSearch } from '../../route/route-tree';
 import { useDebounce } from '../../hooks/useDebounce';
 import { DeleteConfirmDialog } from './components/DeleteConfirmDialog';
 import { SearchInput } from './components/SearchInput';
+import { Link } from '@tanstack/react-router';
+import UserPlusIcon from '@/icons/user-plus.svg?react';
+import { getButtonClasses } from '../../shared/components/ui/ButtonStyles';
 
 export const PeoplePage = (): ReactElement => {
   const search = indexRoute.useSearch();
   const navigate = indexRoute.useNavigate();
-  const [statusFilter, setStatusFilter] = useState<PersonStatus | undefined>();
 
   const [searchInput, setSearchInput] = useState(search.q);
   const debouncedSearch = useDebounce(searchInput, 350);
@@ -87,7 +89,41 @@ export const PeoplePage = (): ReactElement => {
 
   return (
     <main className="mx-auto w-full max-w-[var(--layout-width)] overflow-auto">
-      <p className="text-[30px] font-medium my-6">People</p>
+      <div className="mb-[2.4rem] flex flex-wrap items-center justify-between gap-[1.6rem]">
+        <h1 className="text-[2.4rem] font-semibold text-[var(--colors-darkBlue)]">
+          People
+          {data && (
+            <span className="ml-[0.8rem] text-[1.6rem] font-normal text-[var(--colors-gray-500)]">
+              ({data.total} {data.total === 1 ? 'member' : 'members'})
+            </span>
+          )}
+        </h1>
+
+        <Link to="/people/new" className={getButtonClasses('primary')}>
+          <UserPlusIcon className="h-[1.6rem] w-[1.6rem]" aria-hidden="true" />
+          Add member
+        </Link>
+      </div>
+
+        {deleteError && (
+        <div
+          role="alert"
+          className="mb-[1.6rem] flex items-center justify-between gap-[1.6rem] rounded-[0.8rem]
+            border border-[var(--colors-redPink)]/30 bg-[var(--colors-redPink)]/10 px-[1.6rem] py-[1.2rem]
+            text-[1.4rem] text-[var(--colors-redPink)]"
+        >
+          {deleteError}
+          <button
+            type="button"
+            onClick={() => setDeleteError(null)}
+            aria-label="Dismiss"
+            className="text-[1.2rem] font-medium underline focus-visible:outline-none focus-visible:ring-2
+              focus-visible:ring-[var(--colors-brand)] rounded-sm"
+          >
+            Dismiss
+          </button>
+        </div>
+      )}
 
       <div className="overflow-hidden rounded-[1.2rem] border border-[var(--colors-gray-200)] bg-[var(--colors-blank)]">
         <div className="flex flex-wrap items-center justify-between gap-[1.6rem] p-[2rem]">
