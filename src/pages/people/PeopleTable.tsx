@@ -1,46 +1,47 @@
-
 import { ReactElement } from 'react';
 
 import { usePeople } from '../../hooks/usePeople';
-import { indexRoute } from '../../routes/route-tree';
 import { getRouteApi } from '@tanstack/react-router';
-import { PersonStatus } from '../../types/person';
+import { Person, PersonStatus } from '../../types/person';
 import { Button } from '../../shared/components/ui/Button';
 import { StatusBadge } from '../../shared/components/ui/StatusBadge';
 import { formatSalary } from '../../utils/format';
 import { Avatar } from '../../shared/components/ui/Avatar';
+import { indexRoute } from '../../route/route-tree';
+const COLUMNS = ['Name', 'Role', 'Type', 'Status', 'Country', 'Salary'] as const;
 
-const routeApi = getRouteApi('/');
+type PeopleTableProps = {
+  people: Person[];
+  /** True only on the very first load (no data to show yet). */
+  isLoading: boolean;
+  /** True while a background refetch is in flight (filters/page changed). */
+  isFetching: boolean;
+  isError: boolean;
+  /** Used to size the loading skeleton to match the requested page size. */
+  pageSize: number;
+  /** Whether any search/status filters are currently applied. */
+  hasActiveFilters: boolean;
+  onRetry: () => void;
+  onClearFilters: () => void;
+  onDeleteClick: (person: Person) => void;
+};
+
 const capitalizeFirst = (text: string | undefined): string => {
   if (!text) return '';
   return text.charAt(0).toUpperCase() + text.slice(1);
 };
 
-export const PeopleTable = (): ReactElement => {
-   const { q, status, page = 1, pageSize = 10 } = routeApi.useSearch() as {
-    q?: string;
-    status?: PersonStatus;
-    page?: number;
-    pageSize?: number;
-  };
-  const navigate = indexRoute.useNavigate();
-
-  const { data, isLoading, isFetching } = usePeople({
-    search: q ?? '',
-    status: status ? [status] : [],
-    page,
-    pageSize,
-  });
-
-  const people = data?.people ?? [];
-  const total = data?.total ?? 0;
-  const totalPages = Math.max(1, Math.ceil(total / pageSize));
-
-  const handlePageChange = (nextPage: number): void => {
-    navigate({
-      search: (prev) => ({ ...prev, page: nextPage }),
-    });
-  };
+export const PeopleTable = ({
+  people,
+  isLoading,
+  isFetching,
+  isError,
+  pageSize,
+  hasActiveFilters,
+  onRetry,
+  onClearFilters,
+  onDeleteClick,
+}: PeopleTableProps): ReactElement => {
 
   return (
     <>
@@ -88,33 +89,7 @@ export const PeopleTable = (): ReactElement => {
         )}
       </table>
 
-      {!isLoading && (
-        <div className="flex justify-center mt-4">
-          {/* <button
-            className="px-3 py-2 mx-1 rounded border bg-white"
-            onClick={() => handlePageChange(Math.max(1, page - 1))}
-            disabled={page === 1}
-          >
-            Prev
-          </button> */}
-          <Button onClick={() => handlePageChange(Math.max(1, page - 1))} variant="secondary" isLoading={isFetching}>
-            Prev
-          </Button>
-          <span className="px-3 py-2 mx-1">
-            Page {page} of {totalPages}
-          </span>
-            <Button onClick={() => handlePageChange(page + 1)} variant="secondary" isLoading={isFetching} disabled={page >= totalPages}>
-            Next
-          </Button>
-          {/* <button
-            className="px-3 py-2 mx-1 rounded border bg-white"
-            onClick={() => handlePageChange(page + 1)}
-            disabled={page >= totalPages}
-          >
-            Next
-          </button> */}
-        </div>
-      )}
+ 
     </>
   );
 };
