@@ -71,9 +71,7 @@ export const PeopleTable = ({
           }`}
         >
           {isLoading ? (
-           <div>
-            <p>Loading</p>
-           </div>
+        <SkeletonRows rows={Math.min(pageSize, 8)} />
           ) : isError ? (
             <tr>
               <td colSpan={COLUMNS.length + 1} className="px-[2rem] py-[6rem] text-center">
@@ -157,3 +155,22 @@ export const PeopleTable = ({
     </div>
   );
 };
+
+
+const SkeletonRows = ({ rows }: { rows: number }): ReactElement => (
+  <>
+    {Array.from({ length: rows }, (_, index) => (
+      <tr key={index} className="border-t border-[var(--colors-gray-100)]" aria-hidden="true">
+        {COLUMNS.map((column) => (
+          <td key={column} className="px-[2rem] py-[1.6rem]">
+            <div
+              className="h-[1.2rem] animate-pulse rounded-full bg-[var(--colors-gray-200)]"
+              style={{ width: column === 'Name' ? '70%' : '55%', marginLeft: column === 'Salary' ? 'auto' : 0 }}
+            />
+          </td>
+        ))}
+        <td className="px-[1.2rem] py-[1.6rem]" />
+      </tr>
+    ))}
+  </>
+);
