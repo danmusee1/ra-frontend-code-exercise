@@ -1,13 +1,14 @@
 import { ReactElement } from 'react';
-
-import { usePeople } from '../../hooks/usePeople';
-import { getRouteApi } from '@tanstack/react-router';
-import { Person, PersonStatus } from '../../types/person';
+import { Person } from '../../types/person';
 import { Button } from '../../shared/components/ui/Button';
 import { StatusBadge } from '../../shared/components/ui/StatusBadge';
 import { formatSalary } from '../../utils/format';
 import { Avatar } from '../../shared/components/ui/Avatar';
-import { indexRoute } from '../../route/route-tree';
+import { Link } from '@tanstack/react-router';
+import TrashIcon from '@/icons/trash.svg?react';
+
+
+
 const COLUMNS = ['Name', 'Role', 'Type', 'Status', 'Country', 'Salary'] as const;
 
 type PeopleTableProps = {
@@ -26,10 +27,7 @@ type PeopleTableProps = {
   onDeleteClick: (person: Person) => void;
 };
 
-const capitalizeFirst = (text: string | undefined): string => {
-  if (!text) return '';
-  return text.charAt(0).toUpperCase() + text.slice(1);
-};
+
 
 export const PeopleTable = ({
   people,
@@ -44,52 +42,118 @@ export const PeopleTable = ({
 }: PeopleTableProps): ReactElement => {
 
   return (
-    <>
-      <table className="table-fixed w-full border-collapse">
-        <thead>
-          <tr className="bg-[var(--colors-gray-300)] text-[var(--colors-darkBlue)] font-semibold">
-            <th className="whitespace-nowrap px-4 py-3 text-[1.2rem] text-left">Name</th>
-            <th className="px-4 py-3 text-[1.2rem] text-left">Role</th>
-            <th className="px-4 py-3 text-[1.2rem] text-left">Type</th>
-            <th className="px-4 py-3 text-[1.2rem] text-left">Status</th>
-            <th className="px-4 py-3 text-[1.2rem] text-left">Country</th>
-            <th className="px-4 py-3 text-[1.2rem] text-left">Salary</th>
+    <div className="overflow-x-auto">
+      <table className="w-full min-w-[72rem] border-collapse text-left">
+        <thead className="bg-[var(--colors-gray-50)]">
+          <tr>
+            {COLUMNS.map((column) => (
+              <th
+                key={column}
+                scope="col"
+                className={`whitespace-nowrap px-[2rem] py-[1.2rem] text-[1.2rem] font-semibold uppercase
+                  tracking-wide text-[var(--colors-gray-500)]
+                  ${column === 'Salary' ? 'text-right' : 'text-left'}`}
+              >
+                {column}
+              </th>
+            ))}
+            {/* Visually hidden — the delete button gets its own accessible label per row */}
+            <th scope="col" className="px-[1.2rem] py-[1.2rem]">
+              <span className="sr-only">Actions</span>
+            </th>
           </tr>
         </thead>
 
-        {isLoading && (
-          <tbody className="relative bg-[var(--colors-blank)]">
+        <tbody
+          aria-busy={isFetching}
+          className={`bg-[var(--colors-blank)] transition-opacity duration-150 ${
+            isFetching ? 'opacity-60' : 'opacity-100'
+          }`}
+        >
+          {isLoading ? (
+           <div>
+            <p>Loading</p>
+           </div>
+          ) : isError ? (
             <tr>
-              <td className="h-[200px] text-center" colSpan={6}>
-                <span className="text-[1.6rem] font-medium">Loading...</span>
+              <td colSpan={COLUMNS.length + 1} className="px-[2rem] py-[6rem] text-center">
+                <p className="mb-[1.6rem] text-[1.4rem] text-[var(--colors-gray-600)]">
+                  Something went wrong while loading people.
+                </p>
+                <Button variant="secondary" onClick={onRetry}>
+                  Try again
+                </Button>
               </td>
             </tr>
-          </tbody>
-        )}
-
-        {!isLoading && (
-          <tbody className={isFetching ? 'opacity-60 transition-opacity' : 'transition-opacity'}>
-            {people.map((person) => (
-              <tr key={person.id} className="transition-colors hover:bg-[var(--colors-gray-100)]">
-                <td className="px-4 py-3 border-t border-[var(--colors-gray-300)] bg-[var(--colors-blank)]">
-                  <div className="flex items-center gap-2 text-nowrap">
-                     <Avatar name={person.name} seed={person.id} /> {person.name}
-                    </div>
-                 
-                  
-                  </td>
-                <td className="px-4 py-3 border-t border-[var(--colors-gray-300)] bg-[var(--colors-blank)]">{person.jobTitle}</td>
-                <td className="px-4 py-3 border-t border-[var(--colors-gray-300)] bg-[var(--colors-blank)]">{capitalizeFirst(person.employment)}</td>
-                <td className="px-4 py-3 border-t border-[var(--colors-gray-300)] bg-[var(--colors-blank)]">{StatusBadge({ status: person.status })}</td>
-                <td className="px-4 py-3 border-t border-[var(--colors-gray-300)] bg-[var(--colors-blank)]">{person.country}</td>
-                <td className="px-4 py-3 border-t border-[var(--colors-gray-300)] bg-[var(--colors-blank)]">{formatSalary(person.salary, person.currency)}</td>
+          ) : people.length === 0 ? (
+            <tr>
+              <td colSpan={COLUMNS.length + 1} className="px-[2rem] py-[6rem] text-center">
+                <p className="mb-[1.6rem] text-[1.4rem] text-[var(--colors-gray-600)]">
+                  {hasActiveFilters
+                    ? 'No team members match your search and filters.'
+                    : 'No team members yet.'}
+                </p>
+                {hasActiveFilters && (
+                  <Button variant="secondary" onClick={onClearFilters}>
+                    Clear filters
+                  </Button>
+                )}
+              </td>
+            </tr>
+          ) : (
+            people.map((person) => (
+              <tr
+                key={person.id}
+                className="group border-t border-[var(--colors-gray-100)] transition-colors hover:bg-[var(--colors-gray-50)]"
+              >
+                <td className="px-[2rem] py-[1.2rem]">
+                  <Link
+                    to="/people/edit/$id"
+                    params={{ id: String(person.id) }}
+                    className="flex items-center gap-[1.2rem] rounded-[0.6rem] text-[1.4rem] font-medium
+                      text-[var(--colors-gray-900)] outline-none
+                      focus-visible:ring-2 focus-visible:ring-[var(--colors-brand)] focus-visible:ring-offset-2
+                      group-hover:text-[var(--colors-brand)]"
+                  >
+                    <Avatar name={person.name} seed={person.id} />
+                    {person.name}
+                  </Link>
+                </td>
+                <td className="px-[2rem] py-[1.2rem] text-[1.4rem] text-[var(--colors-gray-700)]">
+                  {person.jobTitle}
+                </td>
+                <td className="px-[2rem] py-[1.2rem] text-[1.4rem] text-[var(--colors-gray-700)]">
+                  {(person.employment)}
+                </td>
+                <td className="px-[2rem] py-[1.2rem]">
+                  <StatusBadge status={person.status} />
+                </td>
+                <td className="px-[2rem] py-[1.2rem] text-[1.4rem] text-[var(--colors-gray-700)]">
+                  {person.country}
+                </td>
+                <td className="px-[2rem] py-[1.2rem] text-right text-[1.4rem] text-[var(--colors-gray-700)]">
+                  {formatSalary(person.salary, person.currency)}
+                </td>
+                <td className="px-[1.2rem] py-[1.2rem]">
+                  <button
+                    type="button"
+                    onClick={() => onDeleteClick(person)}
+                    aria-label={`Remove ${person.name}`}
+                    className="flex h-[3.2rem] w-[3.2rem] items-center justify-center rounded-full
+                      text-[var(--colors-gray-400)] opacity-0 transition-opacity
+                      hover:bg-[var(--colors-gray-100)] hover:text-[var(--colors-redPink)]
+                      focus-visible:opacity-100 focus-visible:outline-none focus-visible:ring-2
+                      focus-visible:ring-[var(--colors-brand)]
+                      group-hover:opacity-100 group-focus-within:opacity-100"
+                  >
+                    <TrashIcon className="h-[1.6rem] w-[1.6rem]" aria-hidden="true" />
+                  </button>
+                </td>
               </tr>
-            ))}
-          </tbody>
-        )}
+            ))
+          )}
+        </tbody>
       </table>
-
- 
-    </>
+    </div>
   );
 };
