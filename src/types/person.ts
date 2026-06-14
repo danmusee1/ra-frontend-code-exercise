@@ -6,6 +6,7 @@ export type Person = {
   salary: number;
   currency: string;
   employment: string;
-  status: 'onboarding' | 'active' | 'offboarded';
+  status: PersonStatus;
   photo: string;
 };
+export type PersonStatus = 'onboarding' | 'active' | 'offboarded';

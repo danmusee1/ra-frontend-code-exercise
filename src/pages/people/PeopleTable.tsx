@@ -1,5 +1,6 @@
 import { ReactElement, useEffect, useState } from 'react';
-import { Person } from 'types/person';
+import { Person } from '../../types/person';
+
 
 const getPeople = async (search: string, page: number): Promise<Person[]> => {
   let queryParams = `?_page=${page}`;
