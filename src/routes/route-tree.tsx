@@ -1,7 +1,7 @@
 import { createRoute, createRouter, redirect } from '@tanstack/react-router';
 import { Route as rootRoute } from './__root';
-import { PeoplePage } from '@/pages/people/page';
-import { AddEditPeoplePage } from '@/pages/add-edit-people';
+import { AddEditPeoplePage } from '../pages/add-edit-people';
+import { PeoplePage } from '../pages/people/page';
 
 export const indexRoute = createRoute({
   getParentRoute: () => rootRoute,
