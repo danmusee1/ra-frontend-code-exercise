@@ -6,6 +6,7 @@ import { indexRoute } from '../../routes/route-tree';
 import { getRouteApi } from '@tanstack/react-router';
 import { PersonStatus } from '../../types/person';
 import { Button } from '../../shared/components/ui/Button';
+import { StatusBadge } from '../../shared/components/ui/StatusBadge';
 
 const routeApi = getRouteApi('/');
 const capitalizeFirst = (text: string | undefined): string => {
@@ -70,7 +71,7 @@ export const PeopleTable = (): ReactElement => {
                 <td className="px-4 py-3 border-t border-[var(--colors-gray-300)] bg-[var(--colors-blank)]">{person.name}</td>
                 <td className="px-4 py-3 border-t border-[var(--colors-gray-300)] bg-[var(--colors-blank)]">{person.jobTitle}</td>
                 <td className="px-4 py-3 border-t border-[var(--colors-gray-300)] bg-[var(--colors-blank)]">{capitalizeFirst(person.employment)}</td>
-                <td className="px-4 py-3 border-t border-[var(--colors-gray-300)] bg-[var(--colors-blank)]">{capitalizeFirst(person.status)}</td>
+                <td className="px-4 py-3 border-t border-[var(--colors-gray-300)] bg-[var(--colors-blank)]">{StatusBadge({ status: person.status })}</td>
                 <td className="px-4 py-3 border-t border-[var(--colors-gray-300)] bg-[var(--colors-blank)]">{person.country}</td>
                 <td className="px-4 py-3 border-t border-[var(--colors-gray-300)] bg-[var(--colors-blank)]">{person.salary}</td>
               </tr>
