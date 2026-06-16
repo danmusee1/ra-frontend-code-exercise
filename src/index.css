@@ -12,7 +12,7 @@
   --colors-gray-900: #0f1419;
   --colors-gray-800: #222e39;
   --colors-gray-700: #364452;
-  --colors-gray-600: #4b5865;
+  --colors-gray-600: #4B5865;
   --colors-gray-500: #697786;
   --colors-gray-400: #9aa6b2;
   --colors-gray-300: #cdd6df;
@@ -23,6 +23,12 @@
   --colors-blank: #ffffff;
 
   --font-primary: 'Inter', sans-serif;
+
+    /* Typography */
+  --text-body-size: 1.452rem; /* 14.52px */
+  --text-body-line-height: 2.281rem; /* 22.81px */
+  --text-body-weight: 400;
+
   --layout-width: 1100px;
 
   --z-index-table-head: 2;
@@ -44,7 +50,13 @@ html {
 
 body {
   margin: 0;
+  font-family: var(--font-primary);
   font-weight: 400;
   font-size: 1.6rem;
   line-height: 1.5;
+}
+.table-cell-text {
+  font-size: var(--text-body-size);
+  line-height: var(--text-body-line-height);
+  font-weight: 400;
 }

@@ -75,7 +75,7 @@ export const PeopleTable = ({
           ) : isError ? (
             <tr>
               <td colSpan={COLUMNS.length + 1} className="px-[2rem] py-[6rem] text-center">
-                <p className="mb-[1.6rem] text-[1.4rem] text-[var(--colors-gray-600)]">
+                <p className="mb-[1.6rem] table-cell-text text-[var(--colors-gray-600)]">
                   Something went wrong while loading people.
                 </p>
                 <Button variant="secondary" onClick={onRetry}>
@@ -86,7 +86,7 @@ export const PeopleTable = ({
           ) : people.length === 0 ? (
             <tr>
               <td colSpan={COLUMNS.length + 1} className="px-[2rem] py-[6rem] text-center">
-                <p className="mb-[1.6rem] text-[1.4rem] text-[var(--colors-gray-600)]">
+                <p className="mb-[1.6rem] table-cell-text text-[var(--colors-gray-600)]">
                   {hasActiveFilters
                     ? 'No team members match your search and filters.'
                     : 'No team members yet.'}
@@ -108,7 +108,7 @@ export const PeopleTable = ({
                   <Link
                     to="/people/edit/$id"
                     params={{ id: String(person.id) }}
-                    className="flex items-center gap-[1.2rem] rounded-[0.6rem] text-[1.4rem] font-medium
+                    className="flex items-center gap-[1.2rem] rounded-[0.6rem] table-cell-text font-medium
                       text-[var(--colors-gray-900)] outline-none
                       focus-visible:ring-2 focus-visible:ring-[var(--colors-brand)] focus-visible:ring-offset-2
                       group-hover:text-[var(--colors-brand)]"
@@ -117,19 +117,19 @@ export const PeopleTable = ({
                     {person.name}
                   </Link>
                 </td>
-                <td className="px-[2rem] py-[1.2rem] text-[1.4rem] text-[var(--colors-gray-700)]">
+                <td className="px-[2rem] py-[1.2rem] table-cell-text text-[var(--colors-gray-600)]">
                   {person.jobTitle}
                 </td>
-                <td className="px-[2rem] py-[1.2rem] text-[1.4rem] text-[var(--colors-gray-700)]">
+                <td className="px-[2rem] py-[1.2rem] table-cell-text text-[var(--colors-gray-600)]">
                   {toTitleCase(person.employment)}
                 </td>
                 <td className="px-[2rem] py-[1.2rem]">
                   <StatusBadge status={person.status} />
                 </td>
-                <td className="px-[2rem] py-[1.2rem] text-[1.4rem] text-[var(--colors-gray-700)]">
+                <td className="px-[2rem] py-[1.2rem] table-cell-text text-[var(--colors-gray-600)]">
                   {person.country}
                 </td>
-                <td className="px-[2rem] py-[1.2rem] text-right text-[1.4rem] text-[var(--colors-gray-700)]">
+                <td className="px-[2rem] py-[1.2rem] text-right table-cell-text text-[var(--colors-gray-600)]">
                   {formatSalary(person.salary, person.currency)}
                 </td>
                 <td className="px-[1.2rem] py-[1.2rem]">
