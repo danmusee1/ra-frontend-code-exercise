@@ -3,7 +3,6 @@ import { PeopleTable } from './PeopleTable';
 import { StatusFilterPills } from './components/StatusFilterPills';
 import { Person, PersonStatus } from '../../types/person';
 import { useDeletePerson, usePeople } from '../../hooks/usePeople';
-import { indexRoute, PeopleSearch } from '../../route/route-tree';
 import { useDebounce } from '../../hooks/useDebounce';
 import { DeleteConfirmDialog } from './components/DeleteConfirmDialog';
 import { SearchInput } from './components/SearchInput';
@@ -11,6 +10,7 @@ import { Link } from '@tanstack/react-router';
 import UserPlusIcon from '@/icons/user-plus.svg?react';
 import { getButtonClasses } from '../../shared/components/ui/ButtonStyles';
 import { Pagination } from './components/Pagination';
+import { indexRoute, PeopleSearch } from '../../routes/route-tree';
 
 export const PeoplePage = (): ReactElement => {
   const search = indexRoute.useSearch();
