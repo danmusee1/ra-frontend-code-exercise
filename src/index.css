@@ -103,4 +103,6 @@ body {
   height: 1.858rem;  /* 18.58px */
   flex-shrink: 0;
 }
-
+input[type="search"]::-webkit-search-cancel-button {
+  display: none;
+}
