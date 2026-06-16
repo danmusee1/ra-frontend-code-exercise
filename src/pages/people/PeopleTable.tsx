@@ -2,7 +2,7 @@ import { ReactElement } from 'react';
 import { Person } from '../../types/person';
 import { Button } from '../../shared/components/ui/Button';
 import { StatusBadge } from '../../shared/components/ui/StatusBadge';
-import { formatSalary } from '../../utils/format';
+import { formatSalary, toTitleCase } from '../../utils/format';
 import { Avatar } from '../../shared/components/ui/Avatar';
 import { Link } from '@tanstack/react-router';
 import TrashIcon from '@/icons/trash.svg?react';
@@ -121,7 +121,7 @@ export const PeopleTable = ({
                   {person.jobTitle}
                 </td>
                 <td className="px-[2rem] py-[1.2rem] text-[1.4rem] text-[var(--colors-gray-700)]">
-                  {(person.employment)}
+                  {toTitleCase(person.employment)}
                 </td>
                 <td className="px-[2rem] py-[1.2rem]">
                   <StatusBadge status={person.status} />

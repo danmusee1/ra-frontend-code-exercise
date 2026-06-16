@@ -64,3 +64,12 @@ export const getAvatarColors = (seed: number): { bg: string; fg: string } => {
   const index = Math.abs(seed) % AVATAR_PALETTE.length;
   return AVATAR_PALETTE[index];
 };
+
+export const toTitleCase = (value?: string): string =>
+  value
+    ? value
+        .replace(/_/g, ' ')
+        .replace(/([A-Z])/g, ' $1')
+        .trim()
+        .replace(/\b\w/g, (char) => char.toUpperCase())
+    : '';
