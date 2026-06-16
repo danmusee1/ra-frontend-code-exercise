@@ -18,16 +18,29 @@ const Inner = (props: InnerProps): ReactElement => (
 export const AppHeader = (): ReactElement => {
   return (
     <Wrapper>
-      <Inner>
-        <div className="flex items-center gap-3 lg:p-20 p-10">
-          <div className="text-right">
-            <div className="admin-name">Julie Howard</div>
-            <div className="text-start  admin-meta ">
-              Admin
-            </div>
-          </div>
-        </div>
-      </Inner>
-    </Wrapper>
+  <Inner>
+    <section
+      aria-label="Current user"
+      className="flex items-center gap-3 p-10 lg:p-20"
+    >
+      <div
+        className="text-right"
+        aria-labelledby="admin-name"
+        aria-describedby="admin-role"
+      >
+        <p id="admin-name" className="admin-name m-0">
+          Julie Howard
+        </p>
+
+        <p
+          id="admin-role"
+          className="admin-meta m-0 text-start"
+        >
+          Admin
+        </p>
+      </div>
+    </section>
+  </Inner>
+</Wrapper>
   );
 };
