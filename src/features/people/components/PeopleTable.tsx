@@ -1,13 +1,20 @@
 import { ReactElement } from 'react';
-import { Person } from '../../types/person';
-import { Button } from '../../shared/components/ui/Button';
-import { StatusBadge } from '../../shared/components/ui/StatusBadge';
-import { formatSalary, toTitleCase } from '../../utils/format';
-import { Avatar } from '../../shared/components/ui/Avatar';
+import { Person } from '../types/person';
+import { Button } from '../../../components/ui/Button';
+import { StatusBadge } from '../../../shared/components/ui/StatusBadge';
+import { formatSalary, toTitleCase } from '../../../utils/format';
+import { Avatar } from '../../../components/ui/Avatar';
 import { Link } from '@tanstack/react-router';
 import TrashIcon from '@/icons/trash.svg?react';
 
-const COLUMNS = ['Name', 'Role', 'Type', 'Status', 'Country', 'Salary'] as const;
+const COLUMNS = [
+  'Name',
+  'Role',
+  'Type',
+  'Status',
+  'Country',
+  'Salary',
+] as const;
 
 type PeopleTableProps = {
   people: Person[];
@@ -32,19 +39,26 @@ export const PeopleTable = ({
   onClearFilters,
   onDeleteClick,
 }: PeopleTableProps): ReactElement => {
-
   const getStatusMessage = () => {
     if (isLoading) return 'Loading team members…';
     if (isFetching) return 'Refreshing team members…';
     if (isError) return 'Failed to load team members.';
-    if (people.length === 0) return hasActiveFilters ? 'No team members match your search and filters.' : 'No team members yet.';
+    if (people.length === 0)
+      return hasActiveFilters
+        ? 'No team members match your search and filters.'
+        : 'No team members yet.';
     return `Showing ${people.length} team member${people.length === 1 ? '' : 's'}.`;
   };
 
   return (
     <div className="overflow-x-auto">
       {/* Live region announces loading/result changes to screen readers */}
-      <p className="sr-only" role="status" aria-live="polite" aria-atomic="true">
+      <p
+        className="sr-only"
+        role="status"
+        aria-live="polite"
+        aria-atomic="true"
+      >
         {getStatusMessage()}
       </p>
 
@@ -89,7 +103,10 @@ export const PeopleTable = ({
             <SkeletonRows rows={Math.min(pageSize, 8)} />
           ) : isError ? (
             <tr>
-              <td colSpan={COLUMNS.length + 1} className="px-[2rem] py-[6rem] text-center">
+              <td
+                colSpan={COLUMNS.length + 1}
+                className="px-[2rem] py-[6rem] text-center"
+              >
                 <p className="mb-[1.6rem] table-cell-text text-[var(--colors-gray-600)]">
                   Something went wrong while loading people.
                 </p>
@@ -100,7 +117,10 @@ export const PeopleTable = ({
             </tr>
           ) : people.length === 0 ? (
             <tr>
-              <td colSpan={COLUMNS.length + 1} className="px-[2rem] py-[6rem] text-center">
+              <td
+                colSpan={COLUMNS.length + 1}
+                className="px-[2rem] py-[6rem] text-center"
+              >
                 <p className="mb-[1.6rem] table-cell-text text-[var(--colors-gray-600)]">
                   {hasActiveFilters
                     ? 'No team members match your search and filters.'
@@ -164,7 +184,10 @@ export const PeopleTable = ({
                       focus-visible:ring-[var(--colors-brand)]
                       group-hover:opacity-100 group-focus-within:opacity-100"
                   >
-                    <TrashIcon className="h-[1.6rem] w-[1.6rem]" aria-hidden="true" />
+                    <TrashIcon
+                      className="h-[1.6rem] w-[1.6rem]"
+                      aria-hidden="true"
+                    />
                   </button>
                 </td>
               </tr>
@@ -176,16 +199,22 @@ export const PeopleTable = ({
   );
 };
 
-
 const SkeletonRows = ({ rows }: { rows: number }): ReactElement => (
   <>
     {Array.from({ length: rows }, (_, index) => (
-      <tr key={index} className="border-t border-[var(--colors-gray-100)]" aria-hidden="true">
+      <tr
+        key={index}
+        className="border-t border-[var(--colors-gray-100)]"
+        aria-hidden="true"
+      >
         {COLUMNS.map((column) => (
           <td key={column} className="px-[2rem] py-[1.6rem]">
             <div
               className="h-[1.2rem] animate-pulse rounded-full bg-[var(--colors-gray-200)]"
-              style={{ width: column === 'Name' ? '70%' : '55%', marginLeft: column === 'Salary' ? 'auto' : 0 }}
+              style={{
+                width: column === 'Name' ? '70%' : '55%',
+                marginLeft: column === 'Salary' ? 'auto' : 0,
+              }}
             />
           </td>
         ))}

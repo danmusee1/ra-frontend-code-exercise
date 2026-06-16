@@ -1,15 +1,18 @@
 import { ReactElement, useState, useEffect } from 'react';
-import { PeopleTable } from './PeopleTable';
-import { StatusFilterPills } from './components/StatusFilterPills';
-import { Person, PersonStatus } from '../../types/person';
-import { useDeletePerson, usePeople } from '../../hooks/usePeople';
-import { useDebounce } from '../../hooks/useDebounce';
-import { DeleteConfirmDialog } from './components/DeleteConfirmDialog';
-import { SearchInput } from './components/SearchInput';
+import { PeopleTable } from '../../features/people/components/PeopleTable';
+import { StatusFilterPills } from '../../features/people/components/StatusFilterPills';
+import { Person, PersonStatus } from '../../features/people/types/person';
+import {
+  useDeletePerson,
+  usePeople,
+} from '../../features/people/hooks/usePeople';
+import { useDebounce } from '../../features/people/hooks/useDebounce';
+import { DeleteConfirmDialog } from '../../features/people/components/DeleteConfirmDialog';
+import { SearchInput } from '../../features/people/components/SearchInput';
 import { Link } from '@tanstack/react-router';
 import UserPlusIcon from '@/icons/user-plus.svg?react';
-import { getButtonClasses } from '../../shared/components/ui/ButtonStyles';
-import { Pagination } from './components/Pagination';
+import { getButtonClasses } from '../../components/ui/ButtonStyles';
+import { Pagination } from '../../features/people/components/Pagination';
 import { indexRoute, PeopleSearch } from '../../routes/route-tree';
 
 export const PeoplePage = (): ReactElement => {

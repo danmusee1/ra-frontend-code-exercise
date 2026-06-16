@@ -1,6 +1,6 @@
 import { ReactElement, useEffect, useRef } from 'react';
-import { Button } from '../../../shared/components/ui/Button';
-import { Person } from '../../../types/person';
+import { Button } from '../../../components/ui/Button';
+import { Person } from '../types/person';
 
 type DeleteConfirmDialogProps = {
   /** The person pending deletion, or `null` when the dialog should be closed. */

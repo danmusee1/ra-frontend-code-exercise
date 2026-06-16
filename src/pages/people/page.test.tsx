@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
-import { PeoplePage } from './page';
+import { PeoplePage } from './PeoplePage';
 import { TestProviders } from '../../test/provider';
 
 describe('PeoplePage', () => {

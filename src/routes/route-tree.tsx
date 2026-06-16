@@ -1,10 +1,19 @@
-import { createRootRoute, createRoute, createRouter, Outlet, redirect } from '@tanstack/react-router';
+import {
+  createRootRoute,
+  createRoute,
+  createRouter,
+  Outlet,
+  redirect,
+} from '@tanstack/react-router';
 import { AppHeader } from '../app/header';
-import { AddEditPeoplePage } from '../pages/add-edit-people';
-import { PeoplePage } from '../pages/people/page';
-import { PersonStatus } from '../types/person';
-import { PAGE_SIZE_OPTIONS, DEFAULT_PAGE_SIZE, ALL_STATUSES } from '../utils/constants';
-
+import { AddEditPeoplePage } from '../pages/people/AddEditPeople';
+import { PeoplePage } from '../pages/people/PeoplePage';
+import { PersonStatus } from '../features/people/types/person';
+import {
+  PAGE_SIZE_OPTIONS,
+  DEFAULT_PAGE_SIZE,
+  ALL_STATUSES,
+} from '../utils/constants';
 
 export type PeopleSearch = {
   q: string;
@@ -20,14 +29,18 @@ export type PeopleSearch = {
  * synced to the URL — so filtered/paginated views are bookmarkable,
  * shareable, and survive the back button.
  */
-const validatePeopleSearch = (search: Record<string, unknown>): PeopleSearch => {
+const validatePeopleSearch = (
+  search: Record<string, unknown>
+): PeopleSearch => {
   const q = typeof search.q === 'string' ? search.q : '';
 
   const page = Number(search.page);
   const safePage = Number.isFinite(page) && page >= 1 ? Math.floor(page) : 1;
 
   const pageSize = Number(search.pageSize);
-  const safePageSize = (PAGE_SIZE_OPTIONS as readonly number[]).includes(pageSize)
+  const safePageSize = (PAGE_SIZE_OPTIONS as readonly number[]).includes(
+    pageSize
+  )
     ? pageSize
     : DEFAULT_PAGE_SIZE;
 

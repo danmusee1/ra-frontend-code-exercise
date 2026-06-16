@@ -1,6 +1,6 @@
 import axios, { AxiosError } from 'axios';
 import type { Person, PersonStatus } from '../types/person';
-import { API_BASE_URL } from '../utils/constants';
+import { API_BASE_URL } from '../../../utils/constants';
 
 // ─── Axios instance ────────────────────────────────────────────────────────────
 const client = axios.create({
@@ -81,9 +81,12 @@ export const fetchPeople = async (
     searchParams.set('_order', params.order ?? 'asc');
   }
 
-  const { data, headers } = await client.get<Person[]>(`/people?${searchParams.toString()}`, {
-    signal,
-  });
+  const { data, headers } = await client.get<Person[]>(
+    `/people?${searchParams.toString()}`,
+    {
+      signal,
+    }
+  );
 
   const total = Number(headers['x-total-count'] ?? data.length);
 

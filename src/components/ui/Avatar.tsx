@@ -1,11 +1,10 @@
 import { ReactElement } from 'react';
-import { getAvatarColors, getInitials } from '../../../utils/format';
+import { getAvatarColors, getInitials } from '../../utils/format';
 
 type AvatarProps = {
   name: string;
   seed: number;
 };
-
 
 export const Avatar = ({ name, seed }: AvatarProps): ReactElement => {
   const { bg, fg } = getAvatarColors(seed);

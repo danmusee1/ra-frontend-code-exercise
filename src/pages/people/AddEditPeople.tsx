@@ -9,8 +9,7 @@ export const AddEditPeoplePage = (): ReactElement => {
     <Container>
       <h1>Add a member.</h1>
       <p>
-        Pretend this page is built, you just need to connect to it, you do not
-        need to build it.
+       Add Member page coming soon
       </p>
     </Container>
   );

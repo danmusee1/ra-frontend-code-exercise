@@ -1,5 +1,15 @@
-import { keepPreviousData, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { type PeopleQueryParams, fetchPeople, type PeoplePage, deletePerson } from '../services/people';
+import {
+  keepPreviousData,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from '@tanstack/react-query';
+import {
+  type PeopleQueryParams,
+  fetchPeople,
+  type PeoplePage,
+  deletePerson,
+} from '../api/people.api';
 
 /**
  * Structured query keys so we can invalidate broadly (`peopleKeys.all`)
