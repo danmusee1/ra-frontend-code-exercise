@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom/vitest';
 import * as matchers from 'vitest-axe/matchers';
 import { configureAxe } from 'vitest-axe';
-import { afterEach, expect } from 'vitest';
+import { afterEach, expect, vi } from 'vitest';
 import { cleanup } from '@testing-library/react';
 
 expect.extend(matchers);
@@ -22,7 +22,7 @@ export const axe = configureAxe({
     'color-contrast': { enabled: false },
   },
 });
-
+window.scrollTo = vi.fn();
 /**
  * jsdom doesn't implement <dialog>'s imperative API (showModal/close) or the
  * `open` property's side effects. DeleteConfirmDialog relies on showModal()

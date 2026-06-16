@@ -9,15 +9,15 @@ describe('StatusFilterPills', () => {
     render(<StatusFilterPills value={[]} onChange={vi.fn()} />);
 
     expect(screen.getByRole('checkbox', { name: 'Active' })).not.toBeChecked();
-    expect(screen.getByRole('checkbox', { name: 'onboarding' })).not.toBeChecked();
-    expect(screen.getByRole('checkbox', { name: 'offboarded' })).not.toBeChecked();
+    expect(screen.getByRole('checkbox', { name: 'Onboarding' })).not.toBeChecked();
+    expect(screen.getByRole('checkbox', { name: 'Offboarded' })).not.toBeChecked();
   });
 
   it('checks only the statuses present in value', () => {
     render(<StatusFilterPills value={['active']} onChange={vi.fn()} />);
 
     expect(screen.getByRole('checkbox', { name: 'Active' })).toBeChecked();
-    expect(screen.getByRole('checkbox', { name: 'onboarding' })).not.toBeChecked();
+    expect(screen.getByRole('checkbox', { name: 'Onboarding' })).not.toBeChecked();
   });
 
   it('calls onChange with the status appended when an unchecked pill is checked', async () => {
@@ -26,7 +26,7 @@ describe('StatusFilterPills', () => {
 
     render(<StatusFilterPills value={['active']} onChange={onChange} />);
 
-    await user.click(screen.getByRole('checkbox', { name: 'onboarding' }));
+    await user.click(screen.getByRole('checkbox', { name: 'Onboarding' }));
     expect(onChange).toHaveBeenCalledWith(['active', 'onboarding']);
   });
 
