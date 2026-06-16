@@ -140,7 +140,7 @@ export const PeopleTable = ({
                 <td className="px-[2rem] py-[1.2rem] table-cell-text text-[var(--colors-gray-600)]">
                   {toTitleCase(person.employment)}
                 </td>
-                <td className="px-[2rem] py-[1.2rem]">
+                <td className="px-[2rem] py-[1.2rem] table-cell-text text-[var(--colors-gray-600)]">
                   <StatusBadge status={person.status} />
                 </td>
                 <td className="px-[2rem] py-[1.2rem] table-cell-text text-[var(--colors-gray-600)]">
