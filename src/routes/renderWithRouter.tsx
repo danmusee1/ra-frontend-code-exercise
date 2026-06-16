@@ -1,3 +1,4 @@
+import { act } from '@testing-library/react';
 import { ReactElement } from 'react';
 import {
   createMemoryHistory,
@@ -59,3 +60,16 @@ export const createTestRouter = (
 export const TestRouterRoot = ({ router }: { router: ReturnType<typeof createTestRouter> }) => (
   <RouterProvider router={router} />
 );
+
+/**
+ * `RouterProvider` resolves its initial route match asynchronously (even
+ * with memory history), so a synchronous RTL `render()` call snapshots the
+ * DOM before anything mounts. Awaiting `router.load()` first ensures the
+ * route component has actually rendered by the time assertions run.
+ */
+export const preloadRouter = async (router: ReturnType<typeof createTestRouter>) => {
+  await act(async () => {
+    await router.load();
+  });
+  return router;
+};

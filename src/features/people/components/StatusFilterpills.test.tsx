@@ -1,23 +1,23 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
-import { expectNoA11yViolations } from '../../../test/utils/A11y';
 import { StatusFilterPills } from './StatusFilterPills';
+import { expectNoA11yViolations } from '../../../test/utils/A11y';
 
 describe('StatusFilterPills', () => {
   it('renders a checkbox for every status, all unchecked when value is empty', () => {
     render(<StatusFilterPills value={[]} onChange={vi.fn()} />);
 
     expect(screen.getByRole('checkbox', { name: 'Active' })).not.toBeChecked();
-    expect(screen.getByRole('checkbox', { name: 'Invited' })).not.toBeChecked();
-    expect(screen.getByRole('checkbox', { name: 'Inactive' })).not.toBeChecked();
+    expect(screen.getByRole('checkbox', { name: 'onboarding' })).not.toBeChecked();
+    expect(screen.getByRole('checkbox', { name: 'offboarded' })).not.toBeChecked();
   });
 
   it('checks only the statuses present in value', () => {
     render(<StatusFilterPills value={['active']} onChange={vi.fn()} />);
 
     expect(screen.getByRole('checkbox', { name: 'Active' })).toBeChecked();
-    expect(screen.getByRole('checkbox', { name: 'Invited' })).not.toBeChecked();
+    expect(screen.getByRole('checkbox', { name: 'onboarding' })).not.toBeChecked();
   });
 
   it('calls onChange with the status appended when an unchecked pill is checked', async () => {
@@ -26,8 +26,8 @@ describe('StatusFilterPills', () => {
 
     render(<StatusFilterPills value={['active']} onChange={onChange} />);
 
-    await user.click(screen.getByRole('checkbox', { name: 'Invited' }));
-    expect(onChange).toHaveBeenCalledWith(['active', 'invited']);
+    await user.click(screen.getByRole('checkbox', { name: 'onboarding' }));
+    expect(onChange).toHaveBeenCalledWith(['active', 'onboarding']);
   });
 
   it('calls onChange with the status removed when a checked pill is unchecked', async () => {
@@ -39,7 +39,7 @@ describe('StatusFilterPills', () => {
     );
 
     await user.click(screen.getByRole('checkbox', { name: 'Active' }));
-    expect(onChange).toHaveBeenCalledWith(['invited']);
+    expect(onChange).toHaveBeenCalledWith(['onboarding']);
   });
 
   it('groups the pills under a labeled group for assistive tech', () => {

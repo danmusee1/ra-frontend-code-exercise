@@ -1,5 +1,5 @@
 import { ReactElement } from 'react';
-import CheckIcon from '@/icons/check.svg?react';
+import CheckIcon from '../../../icons/check.svg?react';
 import { PersonStatus } from '../types/person';
 import { ALL_STATUSES, STATUS_CONFIG } from '../../../utils/constants';
 

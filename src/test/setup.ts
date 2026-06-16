@@ -1,5 +1,6 @@
 import '@testing-library/jest-dom/vitest';
 import * as matchers from 'vitest-axe/matchers';
+import { configureAxe } from 'vitest-axe';
 import { afterEach, expect } from 'vitest';
 import { cleanup } from '@testing-library/react';
 
@@ -7,6 +8,19 @@ expect.extend(matchers);
 
 afterEach(() => {
   cleanup();
+});
+
+/**
+ * jsdom doesn't implement getComputedStyle for pseudo-elements, which axe's
+ * color-contrast check relies on. This causes harmless but noisy
+ * "Not implemented" errors logged to stderr on every render. Disabling that
+ * single rule keeps output clean; color contrast should be verified with a
+ * real browser (e.g. Playwright/Storybook a11y addon) rather than jsdom.
+ */
+export const axe = configureAxe({
+  rules: {
+    'color-contrast': { enabled: false },
+  },
 });
 
 /**
