@@ -6,8 +6,19 @@ import svgr from 'vite-plugin-svgr';
 export default defineConfig({
   plugins: [svgr(), react(), tailwindcss()],
   resolve: { alias: { '@': '/src' } },
-  test: {
+   test: {
     environment: 'jsdom',
-    setupFiles: './src/test/setup',
+    globals: true,
+    setupFiles: ['./src/test/setup.ts'],
+    css: false,
+    restoreMocks: true,
+     alias: {
+    '^.+\\.svg$': './src/test/svg-stub.tsx',
+  },
+    coverage: {
+      provider: 'v8',
+      reporter: ['text', 'html'],
+      exclude: ['src/test/**', '**/*.config.ts'],
+    },
   },
 });
