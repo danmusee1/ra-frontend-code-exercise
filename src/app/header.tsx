@@ -21,8 +21,8 @@ export const AppHeader = (): ReactElement => {
       <Inner>
         <div className="flex items-center gap-3 lg:p-20 p-10">
           <div className="text-right">
-            <div className="text-[1.4rem] font-medium">Julie Howard</div>
-            <div className="text-start text-[1.2rem] text-[var(--colors-gray-600)]">
+            <div className="admin-name">Julie Howard</div>
+            <div className="text-start  admin-meta ">
               Admin
             </div>
           </div>

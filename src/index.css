@@ -104,3 +104,21 @@ body {
 input[type='search']::-webkit-search-cancel-button {
   display: none;
 }
+
+.admin-name {
+  font-family: var(--font-primary);
+  font-weight: 500;
+  font-size: 1.4rem; /* 14px */
+  line-height: 1.3;
+  letter-spacing: 0;
+  color: var(--colors-gray-900);
+}
+
+.admin-meta {
+  font-family: var(--font-primary);
+  font-weight: 400;
+  font-size: 1.2rem; /* 12px */
+  line-height: 1.56rem; /* 12px × 130% */
+  letter-spacing: 0;
+  color: var(--colors-gray-600);
+}
