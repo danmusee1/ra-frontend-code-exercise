@@ -14,6 +14,7 @@ import {
   DEFAULT_PAGE_SIZE,
   ALL_STATUSES,
 } from '../utils/constants';
+import { ViewPeoplePage } from '../pages/people/ViewPeople';
 
 export type PeopleSearch = {
   q: string;
@@ -78,6 +79,11 @@ const newPersonRoute = createRoute({
   path: '/people/new',
   component: AddEditPeoplePage,
 });
+const viewPersonRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/people/view',
+  component: ViewPeoplePage,
+});
 
 const editPersonRoute = createRoute({
   getParentRoute: () => rootRoute,
@@ -100,6 +106,7 @@ export const routeTree = rootRoute.addChildren([
   indexRoute,
   newPersonRoute,
   editPersonRoute,
+  viewPersonRoute,
   catchAllRoute,
 ]);
 

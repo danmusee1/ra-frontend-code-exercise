@@ -1,6 +1,6 @@
 import { ReactElement } from 'react';
-import { PersonStatus } from '../../../features/people/types/person';
-import { STATUS_CONFIG } from '../../../utils/constants';
+import { STATUS_CONFIG } from '../../utils/constants';
+import { PersonStatus } from '../../features/people/types/person';
 
 type StatusBadgeProps = {
   status: PersonStatus;
