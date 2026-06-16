@@ -2,7 +2,6 @@ import { ReactElement, useEffect, useRef } from 'react';
 import { Button } from '../../../shared/components/ui/Button';
 import { Person } from '../../../types/person';
 
-
 type DeleteConfirmDialogProps = {
   /** The person pending deletion, or `null` when the dialog should be closed. */
   person: Person | null;
@@ -44,21 +43,43 @@ export const DeleteConfirmDialog = ({
         onCancel();
       }}
       onClose={onCancel}
-      className="w-full max-w-[40rem] rounded-[1.2rem] border border-[var(--colors-gray-200)] p-0 backdrop:bg-[var(--colors-gray-900)]/40"
+      className="
+    m-auto
+    w-full
+    max-w-[40rem]
+    rounded-[1.2rem]
+    border
+    border-[var(--colors-gray-200)]
+    p-0
+    backdrop:bg-[var(--colors-gray-900)]/40
+  "
     >
       {person && (
         <div className="p-[2.4rem]">
-          <h2 id="delete-dialog-title" className="text-[1.8rem] font-semibold text-[var(--colors-darkBlue)]">
+          <h2
+            id="delete-dialog-title"
+            className="text-[1.8rem] font-semibold text-[var(--colors-darkBlue)]"
+          >
             Remove team member?
           </h2>
 
-          <p id="delete-dialog-description" className="mt-[0.8rem] text-[1.4rem] text-[var(--colors-gray-600)]">
-            This will permanently remove <strong className="text-[var(--colors-gray-800)]">{person.name}</strong> from
-            the People list. This action can&apos;t be undone.
+          <p
+            id="delete-dialog-description"
+            className="mt-[0.8rem] text-[1.4rem] text-[var(--colors-gray-600)]"
+          >
+            This will permanently remove{' '}
+            <strong className="text-[var(--colors-gray-800)]">
+              {person.name}
+            </strong>{' '}
+            from the People list. This action can&apos;t be undone.
           </p>
 
           <div className="mt-[2.4rem] flex justify-end gap-[1.2rem]">
-            <Button variant="secondary" onClick={onCancel} disabled={isDeleting}>
+            <Button
+              variant="secondary"
+              onClick={onCancel}
+              disabled={isDeleting}
+            >
               Cancel
             </Button>
             <Button variant="danger" onClick={onConfirm} isLoading={isDeleting}>
