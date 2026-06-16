@@ -10,7 +10,7 @@ const Wrapper = (props: WrapperProps): ReactElement => (
 
 const Inner = (props: InnerProps): ReactElement => (
   <div
-    className="mx-auto h-[80px] max-w-[var(--layout-width)] py-2 px-4 flex items-center justify-end"
+    className="mx-auto h-[80px]  py-2 px-4 flex items-center justify-end "
     {...props}
   />
 );
@@ -19,10 +19,10 @@ export const AppHeader = (): ReactElement => {
   return (
     <Wrapper>
       <Inner>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 lg:p-20 p-10">
           <div className="text-right">
             <div className="text-[1.4rem] font-medium">Julie Howard</div>
-            <div className="text-[1.2rem] text-[var(--colors-gray-600)]">
+            <div className="text-start text-[1.2rem] text-[var(--colors-gray-600)]">
               Admin
             </div>
           </div>

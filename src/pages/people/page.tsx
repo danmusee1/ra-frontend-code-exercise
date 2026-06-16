@@ -89,7 +89,7 @@ export const PeoplePage = (): ReactElement => {
   };
 
   return (
-    <main className=" overflow-auto bg-[#F3F4F8] p-20">
+    <main className=" overflow-auto bg-[#F3F4F8] lg:p-20 p-10">
       <div className="mb-[2.4rem] flex flex-wrap items-center justify-between gap-[1.6rem]">
         <h1 className="module-title  font-bold">
           People
