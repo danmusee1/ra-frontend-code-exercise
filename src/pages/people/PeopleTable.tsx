@@ -7,27 +7,19 @@ import { Avatar } from '../../shared/components/ui/Avatar';
 import { Link } from '@tanstack/react-router';
 import TrashIcon from '@/icons/trash.svg?react';
 
-
-
 const COLUMNS = ['Name', 'Role', 'Type', 'Status', 'Country', 'Salary'] as const;
 
 type PeopleTableProps = {
   people: Person[];
-  /** True only on the very first load (no data to show yet). */
   isLoading: boolean;
-  /** True while a background refetch is in flight (filters/page changed). */
   isFetching: boolean;
   isError: boolean;
-  /** Used to size the loading skeleton to match the requested page size. */
   pageSize: number;
-  /** Whether any search/status filters are currently applied. */
   hasActiveFilters: boolean;
   onRetry: () => void;
   onClearFilters: () => void;
   onDeleteClick: (person: Person) => void;
 };
-
-
 
 export const PeopleTable = ({
   people,
@@ -41,28 +33,46 @@ export const PeopleTable = ({
   onDeleteClick,
 }: PeopleTableProps): ReactElement => {
 
+  const getStatusMessage = () => {
+    if (isLoading) return 'Loading team members…';
+    if (isFetching) return 'Refreshing team members…';
+    if (isError) return 'Failed to load team members.';
+    if (people.length === 0) return hasActiveFilters ? 'No team members match your search and filters.' : 'No team members yet.';
+    return `Showing ${people.length} team member${people.length === 1 ? '' : 's'}.`;
+  };
+
   return (
     <div className="overflow-x-auto">
-      <table className="w-full min-w-[72rem] border-collapse text-left">
+      {/* Live region announces loading/result changes to screen readers */}
+      <p className="sr-only" role="status" aria-live="polite" aria-atomic="true">
+        {getStatusMessage()}
+      </p>
+
+      <table
+        className="w-full min-w-[72rem] border-collapse text-left"
+        role="grid"
+        aria-label="Team members"
+        aria-rowcount={isLoading ? undefined : people.length}
+        aria-busy={isLoading || isFetching}
+      >
         <thead className="bg-[var(--colors-gray-100)]">
           <tr>
             {COLUMNS.map((column) => (
               <th
-          key={column}
-          scope="col"
-          className={`
-            table-header-text
-            whitespace-nowrap
-            px-[2rem]
-            py-[1.2rem]
-            text-[var(--colors-gray-600)]
-            ${column === 'Salary' ? 'text-right' : 'text-left'}
-          `}
-        >
-          {column}
-        </th>
+                key={column}
+                scope="col"
+                className={`
+                  table-header-text
+                  whitespace-nowrap
+                  px-[2rem]
+                  py-[1.2rem]
+                  text-[var(--colors-gray-600)]
+                  ${column === 'Salary' ? 'text-right' : 'text-left'}
+                `}
+              >
+                {column}
+              </th>
             ))}
-            {/* Visually hidden — the delete button gets its own accessible label per row */}
             <th scope="col" className="px-[1.2rem] py-[1.2rem]">
               <span className="sr-only">Actions</span>
             </th>
@@ -76,7 +86,7 @@ export const PeopleTable = ({
           }`}
         >
           {isLoading ? (
-        <SkeletonRows rows={Math.min(pageSize, 8)} />
+            <SkeletonRows rows={Math.min(pageSize, 8)} />
           ) : isError ? (
             <tr>
               <td colSpan={COLUMNS.length + 1} className="px-[2rem] py-[6rem] text-center">
@@ -104,15 +114,17 @@ export const PeopleTable = ({
               </td>
             </tr>
           ) : (
-            people.map((person) => (
+            people.map((person, index) => (
               <tr
                 key={person.id}
+                aria-rowindex={index + 2} // +2 because header row is index 1
                 className="group border-t border-[var(--colors-gray-100)] transition-colors hover:bg-[var(--colors-gray-50)]"
               >
                 <td className="px-[2rem] py-[1.2rem]">
                   <Link
                     to="/people/edit/$id"
                     params={{ id: String(person.id) }}
+                    aria-label={`Edit ${person.name}`}
                     className="flex items-center gap-[1.2rem] rounded-[0.6rem] table-cell-text font-medium
                       text-[var(--colors-gray-900)] outline-none
                       focus-visible:ring-2 focus-visible:ring-[var(--colors-brand)] focus-visible:ring-offset-2
@@ -134,7 +146,10 @@ export const PeopleTable = ({
                 <td className="px-[2rem] py-[1.2rem] table-cell-text text-[var(--colors-gray-600)]">
                   {person.country}
                 </td>
-                <td className="px-[2rem] py-[1.2rem] text-right table-cell-text text-[var(--colors-gray-600)]">
+                <td
+                  className="px-[2rem] py-[1.2rem] text-right table-cell-text text-[var(--colors-gray-600)]"
+                  aria-label={`Salary: ${formatSalary(person.salary, person.currency)}`}
+                >
                   {formatSalary(person.salary, person.currency)}
                 </td>
                 <td className="px-[1.2rem] py-[1.2rem]">

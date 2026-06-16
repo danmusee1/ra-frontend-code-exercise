@@ -1,4 +1,4 @@
-import {  ReactElement, useState } from 'react';
+import { ReactElement, useState } from 'react';
 import SearchIcon from '@/icons/search.svg?react';
 
 type SearchInputProps = {
@@ -37,8 +37,7 @@ export const SearchInput = ({
         autoComplete="off"
         onFocus={() => setFocused(true)}
         onBlur={() => setFocused(false)}
-         
-className={`w-full rounded-full border border-[var(--colors-gray-300)]
+        className={`w-full rounded-full border border-[var(--colors-gray-300)]
   py-[0.9rem] pl-[4rem] pr-[4rem]
   text-[1.4rem] text-[var(--colors-gray-800)]
   placeholder:text-[var(--colors-gray-400)]
