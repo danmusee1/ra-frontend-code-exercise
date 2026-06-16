@@ -44,18 +44,23 @@ export const PeopleTable = ({
   return (
     <div className="overflow-x-auto">
       <table className="w-full min-w-[72rem] border-collapse text-left">
-        <thead className="bg-[var(--colors-gray-50)]">
+        <thead className="bg-[var(--colors-gray-100)]">
           <tr>
             {COLUMNS.map((column) => (
               <th
-                key={column}
-                scope="col"
-                className={`whitespace-nowrap px-[2rem] py-[1.2rem] text-[1.2rem] font-semibold uppercase
-                  tracking-wide text-[var(--colors-gray-500)]
-                  ${column === 'Salary' ? 'text-right' : 'text-left'}`}
-              >
-                {column}
-              </th>
+          key={column}
+          scope="col"
+          className={`
+            table-header-text
+            whitespace-nowrap
+            px-[2rem]
+            py-[1.2rem]
+            text-[var(--colors-gray-600)]
+            ${column === 'Salary' ? 'text-right' : 'text-left'}
+          `}
+        >
+          {column}
+        </th>
             ))}
             {/* Visually hidden — the delete button gets its own accessible label per row */}
             <th scope="col" className="px-[1.2rem] py-[1.2rem]">

@@ -17,8 +17,10 @@
   --colors-gray-400: #9aa6b2;
   --colors-gray-300: #cdd6df;
   --colors-gray-200: #e3e9ef;
-  --colors-gray-100: #eef2f6;
+  --colors-gray-100: #EEF2F6;
   --colors-gray-50: #f8fafc;
+  --colors-brand-subtle: #F5F3FF;
+
 
   --colors-blank: #ffffff;
 
@@ -28,6 +30,12 @@
   --text-body-size: 1.452rem; /* 14.52px */
   --text-body-line-height: 2.281rem; /* 22.81px */
   --text-body-weight: 400;
+
+  /*Table Headers */
+    --table-header-font-size: 1.037rem;   /* 10.37px */
+  --table-header-line-height: 1.659rem; /* 16.59px */
+  --table-header-letter-spacing: 0.02em;
+  --table-header-weight: 600;
 
   --layout-width: 1100px;
 
@@ -60,3 +68,39 @@ body {
   line-height: var(--text-body-line-height);
   font-weight: 400;
 }
+
+.table-header-text {
+  font-size: 1.037rem;
+  line-height: 1.659rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.module-title {
+  font-family: 'Remote Sans', sans-serif;
+  font-weight: 500; /* Medium */
+  font-style: normal;
+  font-size: 2.489rem;
+  line-height: 3.318rem;
+  letter-spacing: 0;
+  color: var(--colors-gray-900);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.button-text {
+  font-family: 'Inter', sans-serif;
+  font-weight: 500; /* Medium */
+  font-size: 1.659rem;   /* 16.59px */
+  line-height: 2.489rem; /* 24.89px */
+  letter-spacing: 0;
+  text-align: center;
+  vertical-align: middle;
+}
+.button-icon {
+  width: 1.512rem;   /* 15.12px */
+  height: 1.858rem;  /* 18.58px */
+  flex-shrink: 0;
+}
+

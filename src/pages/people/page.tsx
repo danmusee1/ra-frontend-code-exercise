@@ -89,12 +89,12 @@ export const PeoplePage = (): ReactElement => {
   };
 
   return (
-    <main className="mx-auto w-full max-w-[var(--layout-width)] overflow-auto">
+    <main className=" overflow-auto bg-[#F3F4F8] p-20">
       <div className="mb-[2.4rem] flex flex-wrap items-center justify-between gap-[1.6rem]">
-        <h1 className="text-[2.4rem] font-semibold text-[var(--colors-darkBlue)]">
+        <h1 className="module-title  font-bold">
           People
           {data && (
-            <span className="ml-[0.8rem] text-[1.6rem] font-normal text-[var(--colors-gray-500)]">
+            <span className="ml-[0.8rem] text-[1.6rem] font-normal text-[var(--colors-gray-600)]">
               ({data.total} {data.total === 1 ? 'member' : 'members'})
             </span>
           )}
@@ -112,11 +112,12 @@ export const PeoplePage = (): ReactElement => {
     transition
     motion-reduce:transition-none
     select-none
+    button-text
   `}
           aria-label="Add new member"
         >
           <UserPlusIcon
-            className="h-[1.6rem] w-[1.6rem]"
+            className="button-icon"
             aria-hidden="true"
             focusable="false"
           />

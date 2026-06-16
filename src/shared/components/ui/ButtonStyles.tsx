@@ -10,8 +10,10 @@ const VARIANT_CLASSES: Record<ButtonVariant, string> = {
 };
 
 const BASE_BUTTON_CLASSES =
-  'inline-flex items-center justify-center gap-2 rounded-full px-4 py-2 text-[1.4rem] ' +
-  'font-medium transition-colors duration-150 ' +
+  'inline-flex items-center justify-center gap-[0.8rem] ' +
+  'rounded-full px-[1.659rem] py-[0.933rem] ' +
+  'text-[1.659rem] leading-[2.489rem] font-medium ' +
+  'transition-colors duration-150 ' +
   'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--colors-brand)] focus-visible:ring-offset-2 ' +
   'disabled:cursor-not-allowed disabled:opacity-50';
 
