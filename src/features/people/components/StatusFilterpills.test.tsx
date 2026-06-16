@@ -35,7 +35,7 @@ describe('StatusFilterPills', () => {
     const onChange = vi.fn();
 
     render(
-      <StatusFilterPills value={['active', 'invited']} onChange={onChange} />
+      <StatusFilterPills value={['active', 'onboarding']} onChange={onChange} />
     );
 
     await user.click(screen.getByRole('checkbox', { name: 'Active' }));

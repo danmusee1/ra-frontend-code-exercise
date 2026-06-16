@@ -4,7 +4,7 @@ import { Button } from '../../../components/ui/Button';
 import { formatSalary, toTitleCase } from '../../../utils/format';
 import { Avatar } from '../../../components/ui/Avatar';
 import { Link } from '@tanstack/react-router';
-import TrashIcon from '@/icons/trash.svg?react';
+import TrashIcon from '../../../icons/trash.svg?react';
 import { StatusBadge } from '../../../components/ui/StatusBadge';
 
 const COLUMNS = [
