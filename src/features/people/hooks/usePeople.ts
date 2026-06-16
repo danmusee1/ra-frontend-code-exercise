@@ -33,7 +33,7 @@ export const usePeople = (params: PeopleQueryParams) => {
     queryKey: peopleKeys.list(params),
     queryFn: ({ signal }) => fetchPeople(params, signal),
     placeholderData: keepPreviousData,
-    staleTime: 30000,
+    staleTime: 60_000,
   });
 };
 
